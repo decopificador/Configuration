@@ -95,6 +95,8 @@ class Esp8266Configuration
 
     void readParameter(String parameterName, int variable, JsonObject& json);
 
+    void readParameter(String parameterName, bool variable, JsonObject& json);
+
     // check if wifi ap is configured to be enabled
     bool isWifiApEnabled();
 
