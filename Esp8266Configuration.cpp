@@ -108,13 +108,13 @@ void Esp8266Configuration::write(){
   JsonObject& json = jsonBuffer.createObject();
   json[PARAM_WIFI_AP_SSID]      = wifi_ap_ssid;
   json[PARAM_WIFI_AP_PASSWORD]  = wifi_ap_password;
-  json[PARAM_WIFI_AP_ENABLED]   = wifi_ap_enabled;
+  json[PARAM_WIFI_AP_ENABLED]   = wifi_ap_enabled ? "true" : "false";
 
   json[PARAM_WIFI_STATION_SSID]     = wifi_station_ssid;
   json[PARAM_WIFI_STATION_PASSWORD] = wifi_station_password;
-  json[PARAM_WIFI_STATION_ENABLED]  = wifi_station_enabled;
+  json[PARAM_WIFI_STATION_ENABLED]  = wifi_station_enabled ? "true" : "false";
 
-  json[PARAM_MQTT_ENABLED]      = mqtt_enabled;
+  json[PARAM_MQTT_ENABLED]      = mqtt_enabled ? "true" : "false";
   json[PARAM_MQTT_HOST]         = mqtt_host;
   json[PARAM_MQTT_PORT]         = mqtt_port;
   json[PARAM_MQTT_USER]         = mqtt_user;
@@ -222,9 +222,11 @@ void Esp8266Configuration::read(){
         // reading wifi ap configuration
         readParameter(PARAM_WIFI_AP_SSID, wifi_ap_ssid, json);
         readParameter(PARAM_WIFI_AP_PASSWORD, wifi_ap_password, json);
+        readParameter(PARAM_WIFI_AP_ENABLED, wifi_ap_enabled, json);
         // reading wifi station configuration
         readParameter(PARAM_WIFI_STATION_SSID, wifi_station_ssid, json);
         readParameter(PARAM_WIFI_STATION_PASSWORD, wifi_station_password, json);
+        readParameter(PARAM_WIFI_STATION_ENABLED, wifi_station_enabled, json);
         // reading mqtt configuration
         readParameter(PARAM_MQTT_ENABLED, mqtt_enabled, json);
         readParameter(PARAM_MQTT_HOST, mqtt_host, json);
@@ -258,4 +260,12 @@ void Esp8266Configuration::readParameter(String parameterName, int variable, Jso
       variable = atoi(value);
     }
   }
+}
+  void Esp8266Configuration::readParameter(String parameterName, bool variable, JsonObject& json){
+    if (json.containsKey(parameterName)) {
+      const char* value = json[parameterName];
+      if (value != NULL) {
+        variable = (value=="true") ? true : false;
+      }
+    }
 }

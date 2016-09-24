@@ -36,15 +36,15 @@ class Esp8266Configuration
   // wifi ap variables
   char* wifi_ap_ssid = new char[255];
   char* wifi_ap_password = new char[255];
-  bool wifi_ap_enabled = new char[255];
+  bool wifi_ap_enabled = true;
 
   // wifi station variables
   char* wifi_station_ssid = new char[255];
   char* wifi_station_password = new char[255];
-  bool wifi_station_enabled = new char[255];
+  bool wifi_station_enabled = false;
 
   // mqtt configuration variables
-  bool mqtt_enabled = new char[255];
+  bool mqtt_enabled = false;
   char* mqtt_host = new char[255];
   char* mqtt_user = new char[255];
   char* mqtt_password = new char[255];
@@ -94,6 +94,8 @@ class Esp8266Configuration
     void readParameter(String parameterName, char* variable, JsonObject& json);
 
     void readParameter(String parameterName, int variable, JsonObject& json);
+
+    void readParameter(String parameterName, bool variable, JsonObject& json);
 
     // check if wifi ap is configured to be enabled
     bool isWifiApEnabled();
