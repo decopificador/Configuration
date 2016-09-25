@@ -2,7 +2,7 @@
 #include "Esp8266Configuration.h"
 
 void Esp8266Configuration::setWifiApEnabled(bool enabled){
-  wifi_ap_enabled = enabled;
+  enabled ? strcpy(wifi_ap_enabled,"true") : strcpy(wifi_ap_enabled,"false");
 }
 
 void Esp8266Configuration::setWifiApSsid(char* ssid){
@@ -14,7 +14,7 @@ void Esp8266Configuration::setWifiApPassword(char* password){
 }
 
 void Esp8266Configuration::setWifiStationEnabled(bool enabled){
-  wifi_station_enabled = enabled;
+  enabled ? strcpy(wifi_station_enabled,"true") : strcpy(wifi_station_enabled,"false");
 }
 
 void Esp8266Configuration::setWifiStationSsid(char* ssid){
@@ -26,7 +26,7 @@ void Esp8266Configuration::setWifiStationPassword(char* password){
 }
 
 void Esp8266Configuration::setMqttEnabled(bool enabled){
-  mqtt_enabled = enabled;
+  enabled ? strcpy(mqtt_enabled,"true") : strcpy(mqtt_enabled,"false");
 }
 
 void Esp8266Configuration::setMqttServer(char* server){
@@ -120,13 +120,13 @@ void Esp8266Configuration::write(){
   JsonObject& json = jsonBuffer.createObject();
   json[PARAM_WIFI_AP_SSID]      = wifi_ap_ssid;
   json[PARAM_WIFI_AP_PASSWORD]  = wifi_ap_password;
-  json[PARAM_WIFI_AP_ENABLED]   = wifi_ap_enabled ? "true" : "false";
+  json[PARAM_WIFI_AP_ENABLED]   = wifi_ap_enabled;
 
   json[PARAM_WIFI_STATION_SSID]     = wifi_station_ssid;
   json[PARAM_WIFI_STATION_PASSWORD] = wifi_station_password;
-  json[PARAM_WIFI_STATION_ENABLED]  = wifi_station_enabled ? "true" : "false";
+  json[PARAM_WIFI_STATION_ENABLED]  = wifi_station_enabled;
 
-  json[PARAM_MQTT_ENABLED]      = mqtt_enabled ? "true" : "false";
+  json[PARAM_MQTT_ENABLED]      = mqtt_enabled;
   json[PARAM_MQTT_HOST]         = mqtt_host;
   json[PARAM_MQTT_PORT]         = mqtt_port;
   json[PARAM_MQTT_USER]         = mqtt_user;
@@ -158,15 +158,15 @@ bool Esp8266Configuration::isWifiStationConfigurationValid(){
 }
 
 bool Esp8266Configuration::isWifiApEnabled(){
-  return wifi_ap_enabled;
+  return strcmp(wifi_ap_enabled,"true") ? false : true;
 }
 
 bool Esp8266Configuration::isWifiStationEnabled(){
-  return wifi_station_enabled;
+  return strcmp(wifi_station_enabled,"true") ? false : true;
 }
 
 bool Esp8266Configuration::isMqttEnabled() {
-  return mqtt_enabled;
+  return strcmp(mqtt_enabled,"true") ? false : true;
 }
 
 bool Esp8266Configuration::isMqttConfigurationValid(){
@@ -256,24 +256,6 @@ void Esp8266Configuration::readParameter(String parameterName, char* variable, J
     const char* value = json[parameterName];
     if (value != NULL) {
       strcpy(variable, value);
-    }
-  }
-}
-
-// void Esp8266Configuration::readParameter(String parameterName, int variable, JsonObject& json){
-//   if (json.containsKey(parameterName)) {
-//     const char* value = json[parameterName];
-//     if (value != NULL) {
-//       variable = atoi(value);
-//     }
-//   }
-// }
-
-void Esp8266Configuration::readParameter(String parameterName, bool variable, JsonObject& json){
-  if (json.containsKey(parameterName)) {
-    const char* value = json[parameterName];
-    if (value != NULL) {
-      variable = (value=="true") ? true : false;
     }
   }
 }
