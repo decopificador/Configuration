@@ -33,24 +33,6 @@ class Esp8266Configuration
 {
   //std::list<GpioPwm> mapTest;
 
-  // wifi ap variables
-  char* wifi_ap_ssid = new char[255];
-  char* wifi_ap_password = new char[255];
-  bool wifi_ap_enabled = true;
-
-  // wifi station variables
-  char* wifi_station_ssid = new char[255];
-  char* wifi_station_password = new char[255];
-  bool wifi_station_enabled = false;
-
-  // mqtt configuration variables
-  bool mqtt_enabled = false;
-  char* mqtt_host = new char[255];
-  char* mqtt_user = new char[255];
-  char* mqtt_password = new char[255];
-  char* mqtt_device_name = new char[255];
-  int mqtt_port = 1883;
-
   public:
     // read configuration from spiffs
     void read();
@@ -58,17 +40,26 @@ class Esp8266Configuration
     // write configuration to spiffs
     void write();
 
+    // set wifi ap enabled (changes will not be stored until write is called)
+    void setWifiApEnabled(bool enabled);
+
     // set wifi ap ssid (changes will not be stored until write is called)
     void setWifiApSsid(char* ssid);
 
     // set wifi ap password (changes will not be stored until write is called)
     void setWifiApPassword(char* password);
 
+    // set wifi station enabled (changes will not be stored until write is called)
+    void setWifiStationEnabled(bool enabled);
+
     // set wifi station ssid (changes will not be stored until write is called)
     void setWifiStationSsid(char* ssid);
 
     // set wifi station password (changes will not be stored until write is called)
     void setWifiStationPassword(char* password);
+
+    // set mqtt server enabled (changes will not be stored until write is called)
+    void setMqttEnabled(bool enabled);
 
     // set mqtt server name or ip (changes will not be stored until write is called)
     void setMqttServer(char* server);
@@ -144,9 +135,26 @@ class Esp8266Configuration
 
     // check if mqtt is configured to be enabled
     bool isMqttEnabled();
+
 private:
   String _rawConfiguration;
+  // wifi ap variables
+  char* wifi_ap_ssid = new char[255];
+  char* wifi_ap_password = new char[255];
+  bool wifi_ap_enabled;
 
+  // wifi station variables
+  char* wifi_station_ssid = new char[255];
+  char* wifi_station_password = new char[255];
+  bool wifi_station_enabled;
+
+  // mqtt configuration variables
+  bool mqtt_enabled;
+  char* mqtt_host = new char[255];
+  char* mqtt_user = new char[255];
+  char* mqtt_password = new char[255];
+  char* mqtt_device_name = new char[255];
+  int mqtt_port;
 };
 
 #endif

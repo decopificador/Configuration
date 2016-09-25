@@ -1,6 +1,10 @@
 
 #include "Esp8266Configuration.h"
 
+void Esp8266Configuration::setWifiApEnabled(bool enabled){
+  wifi_ap_enabled = enabled;
+}
+
 void Esp8266Configuration::setWifiApSsid(char* ssid){
   wifi_ap_ssid = ssid;
 }
@@ -9,12 +13,20 @@ void Esp8266Configuration::setWifiApPassword(char* password){
   wifi_ap_password = password;
 }
 
+void Esp8266Configuration::setWifiStationEnabled(bool enabled){
+  wifi_station_enabled = enabled;
+}
+
 void Esp8266Configuration::setWifiStationSsid(char* ssid){
   wifi_station_ssid = ssid;
 }
 
 void Esp8266Configuration::setWifiStationPassword(char* password){
   wifi_station_password = password;
+}
+
+void Esp8266Configuration::setMqttEnabled(bool enabled){
+  mqtt_enabled = enabled;
 }
 
 void Esp8266Configuration::setMqttServer(char* server){
@@ -132,22 +144,17 @@ void Esp8266Configuration::write(){
 };
 
 bool Esp8266Configuration::isWifiApConfigurationValid(){
-
-  return (
-    wifi_ap_password != NULL &&
-    strlen(wifi_ap_password) > 7 &&
-    wifi_ap_ssid != NULL &&
-    strlen(wifi_ap_ssid) >2
-  );
+  if ( wifi_ap_ssid == NULL) return false;
+  if ( wifi_ap_ssid != NULL && strlen(wifi_ap_ssid) < 3 ) return false;
+  if ( wifi_ap_password != NULL && strlen(wifi_ap_password) < 8 ) return false;
+  return true;
 }
 
 bool Esp8266Configuration::isWifiStationConfigurationValid(){
-  return (
-    wifi_station_password != NULL &&
-    strlen(wifi_station_password) > 7 &&
-    wifi_station_ssid != NULL &&
-    strlen(wifi_station_ssid) >2
-  );
+  if ( wifi_station_ssid == NULL) return false;
+  if ( wifi_station_ssid != NULL && strlen(wifi_ap_ssid) < 3 ) return false;
+  if ( wifi_station_password != NULL && strlen(wifi_ap_password) < 8 ) return false;
+  return true;
 }
 
 bool Esp8266Configuration::isWifiApEnabled(){
