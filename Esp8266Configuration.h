@@ -65,7 +65,7 @@ class Esp8266Configuration
     void setMqttServer(char* server);
 
     // set mqtt server port (changes will not be stored until write is called)
-    void setMqttPort(int port);
+    void setMqttPort(char* port);
 
     // set mqtt users password (changes will not be stored until write is called)
     void setMqttPassword(char* password);
@@ -95,7 +95,7 @@ class Esp8266Configuration
     bool isWifiStationEnabled();
 
     // get the configured mqtt port
-    int getMqttPort();
+    char* getMqttPort();
 
     // get the wifi ap ssid
     char* getWifiApSsid();
@@ -154,7 +154,7 @@ private:
   char* mqtt_user = new char[255];
   char* mqtt_password = new char[255];
   char* mqtt_device_name = new char[255];
-  int mqtt_port;
+  char* mqtt_port = new char[255];
 };
 
 #endif

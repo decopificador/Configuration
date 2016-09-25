@@ -33,7 +33,7 @@ void Esp8266Configuration::setMqttServer(char* server){
   mqtt_host = server;
 }
 
-void Esp8266Configuration::setMqttPort(int port){
+void Esp8266Configuration::setMqttPort(char* port){
   mqtt_port = port;
 }
 
@@ -69,7 +69,7 @@ char* Esp8266Configuration::getMqttServer(){
   return mqtt_host;
 }
 
-int Esp8266Configuration::getMqttPort(){
+char* Esp8266Configuration::getMqttPort(){
   return mqtt_port;
 }
 
@@ -172,8 +172,8 @@ bool Esp8266Configuration::isMqttEnabled() {
 bool Esp8266Configuration::isMqttConfigurationValid(){
   if ( mqtt_host == NULL) return false;
   if ( mqtt_device_name == NULL) return false;
-  if (mqtt_port < 1000) return false;
-  if (mqtt_port > 30000) return false;
+  if (atoi(mqtt_port) < 1000) return false;
+  if (atoi(mqtt_port) > 30000) return false;
   return true;
 }
 
@@ -260,19 +260,20 @@ void Esp8266Configuration::readParameter(String parameterName, char* variable, J
   }
 }
 
-void Esp8266Configuration::readParameter(String parameterName, int variable, JsonObject& json){
+// void Esp8266Configuration::readParameter(String parameterName, int variable, JsonObject& json){
+//   if (json.containsKey(parameterName)) {
+//     const char* value = json[parameterName];
+//     if (value != NULL) {
+//       variable = atoi(value);
+//     }
+//   }
+// }
+
+void Esp8266Configuration::readParameter(String parameterName, bool variable, JsonObject& json){
   if (json.containsKey(parameterName)) {
     const char* value = json[parameterName];
     if (value != NULL) {
-      variable = atoi(value);
+      variable = (value=="true") ? true : false;
     }
   }
-}
-  void Esp8266Configuration::readParameter(String parameterName, bool variable, JsonObject& json){
-    if (json.containsKey(parameterName)) {
-      const char* value = json[parameterName];
-      if (value != NULL) {
-        variable = (value=="true") ? true : false;
-      }
-    }
 }
