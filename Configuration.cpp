@@ -1,91 +1,91 @@
 
-#include "Esp8266Configuration.h"
+#include "Configuration.h"
 
-void Esp8266Configuration::setWifiApEnabled(bool enabled){
+void Configuration::setWifiApEnabled(bool enabled){
   enabled ? strcpy(wifi_ap_enabled,"true") : strcpy(wifi_ap_enabled,"false");
 }
 
-void Esp8266Configuration::setWifiApSsid(char* ssid){
+void Configuration::setWifiApSsid(char* ssid){
   wifi_ap_ssid = ssid;
 }
 
-void Esp8266Configuration::setWifiApPassword(char* password){
+void Configuration::setWifiApPassword(char* password){
   wifi_ap_password = password;
 }
 
-void Esp8266Configuration::setWifiStationEnabled(bool enabled){
+void Configuration::setWifiStationEnabled(bool enabled){
   enabled ? strcpy(wifi_station_enabled,"true") : strcpy(wifi_station_enabled,"false");
 }
 
-void Esp8266Configuration::setWifiStationSsid(char* ssid){
+void Configuration::setWifiStationSsid(char* ssid){
   wifi_station_ssid = ssid;
 }
 
-void Esp8266Configuration::setWifiStationPassword(char* password){
+void Configuration::setWifiStationPassword(char* password){
   wifi_station_password = password;
 }
 
-void Esp8266Configuration::setMqttEnabled(bool enabled){
+void Configuration::setMqttEnabled(bool enabled){
   enabled ? strcpy(mqtt_enabled,"true") : strcpy(mqtt_enabled,"false");
 }
 
-void Esp8266Configuration::setMqttServer(char* server){
+void Configuration::setMqttServer(char* server){
   mqtt_host = server;
 }
 
-void Esp8266Configuration::setMqttPort(char* port){
+void Configuration::setMqttPort(char* port){
   mqtt_port = port;
 }
 
-void Esp8266Configuration::setMqttPassword(char* password){
+void Configuration::setMqttPassword(char* password){
   mqtt_password = password;
 }
 
-void Esp8266Configuration::setMqttUser(char* user){
+void Configuration::setMqttUser(char* user){
   mqtt_user = user;
 }
 
-void Esp8266Configuration::setMqttDeviceName(char* deviceName){
+void Configuration::setMqttDeviceName(char* deviceName){
   mqtt_device_name = deviceName;
 }
 
-char* Esp8266Configuration::getWifiApSsid(){
+char* Configuration::getWifiApSsid(){
   return wifi_ap_ssid;
 }
 
-char* Esp8266Configuration::getWifiApPassword(){
+char* Configuration::getWifiApPassword(){
   return wifi_ap_password;
 }
 
-char* Esp8266Configuration::getWifiStationSsid(){
+char* Configuration::getWifiStationSsid(){
   return wifi_station_ssid;
 }
 
-char* Esp8266Configuration::getWifiStationPassword(){
+char* Configuration::getWifiStationPassword(){
   return wifi_station_password;
 }
 
-char* Esp8266Configuration::getMqttServer(){
+char* Configuration::getMqttServer(){
   return mqtt_host;
 }
 
-char* Esp8266Configuration::getMqttPort(){
+char* Configuration::getMqttPort(){
   return mqtt_port;
 }
 
-char* Esp8266Configuration::getMqttUser() {
+char* Configuration::getMqttUser() {
   return mqtt_user;
 }
 
-char* Esp8266Configuration::getMqttDeviceName() {
+char* Configuration::getMqttDeviceName() {
   return mqtt_device_name;
 }
 
-char* Esp8266Configuration::getMqttPassword() {
+char* Configuration::getMqttPassword() {
   return mqtt_password;
 }
 
-String Esp8266Configuration::getRawConfiguration() {
+String Configuration::getRawConfiguration() {
   if (SPIFFS.begin()) {
     if (_rawConfiguration == NULL) {
       if (SPIFFS.exists("/configuration.json")) {
@@ -115,7 +115,7 @@ String Esp8266Configuration::getRawConfiguration() {
   //end read
 }
 
-void Esp8266Configuration::write(){
+void Configuration::write(){
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.createObject();
   json[PARAM_WIFI_AP_SSID]      = wifi_ap_ssid;
@@ -143,33 +143,33 @@ void Esp8266Configuration::write(){
   configFile.close();
 };
 
-bool Esp8266Configuration::isWifiApConfigurationValid(){
+bool Configuration::isWifiApConfigurationValid(){
   if ( wifi_ap_ssid == NULL) return false;
   if ( wifi_ap_ssid != NULL && strlen(wifi_ap_ssid) < 3 ) return false;
   if ( wifi_ap_password != NULL && strlen(wifi_ap_password) < 8 ) return false;
   return true;
 }
 
-bool Esp8266Configuration::isWifiStationConfigurationValid(){
+bool Configuration::isWifiStationConfigurationValid(){
   if ( wifi_station_ssid == NULL) return false;
   if ( wifi_station_ssid != NULL && strlen(wifi_ap_ssid) < 3 ) return false;
   if ( wifi_station_password != NULL && strlen(wifi_ap_password) < 8 ) return false;
   return true;
 }
 
-bool Esp8266Configuration::isWifiApEnabled(){
+bool Configuration::isWifiApEnabled(){
   return strcmp(wifi_ap_enabled,"true") ? false : true;
 }
 
-bool Esp8266Configuration::isWifiStationEnabled(){
+bool Configuration::isWifiStationEnabled(){
   return strcmp(wifi_station_enabled,"true") ? false : true;
 }
 
-bool Esp8266Configuration::isMqttEnabled() {
+bool Configuration::isMqttEnabled() {
   return strcmp(mqtt_enabled,"true") ? false : true;
 }
 
-bool Esp8266Configuration::isMqttConfigurationValid(){
+bool Configuration::isMqttConfigurationValid(){
   if ( mqtt_host == NULL) return false;
   if ( mqtt_device_name == NULL) return false;
   if (atoi(mqtt_port) < 1000) return false;
@@ -177,7 +177,7 @@ bool Esp8266Configuration::isMqttConfigurationValid(){
   return true;
 }
 
-void Esp8266Configuration::writeConfiguration(const char* &configuration){
+void Configuration::writeConfiguration(const char* &configuration){
   if (SPIFFS.begin()) {
     DynamicJsonBuffer jsonBuffer;
     JsonObject& json = jsonBuffer.parseObject(configuration);
@@ -198,7 +198,7 @@ void Esp8266Configuration::writeConfiguration(const char* &configuration){
   }
 }
 
-void Esp8266Configuration::writeConfiguration(String &configuration){
+void Configuration::writeConfiguration(String &configuration){
   if (SPIFFS.begin()) {
     DynamicJsonBuffer jsonBuffer;
     JsonObject& json = jsonBuffer.parseObject(configuration);
@@ -219,7 +219,7 @@ void Esp8266Configuration::writeConfiguration(String &configuration){
   }
 }
 
-void Esp8266Configuration::read(){
+void Configuration::read(){
   getRawConfiguration();
   if (_rawConfiguration) {
       DynamicJsonBuffer jsonBuffer;
@@ -251,7 +251,7 @@ void Esp8266Configuration::read(){
   //end read
 }
 
-void Esp8266Configuration::readParameter(String parameterName, char* variable, JsonObject& json){
+void Configuration::readParameter(String parameterName, char* variable, JsonObject& json){
   if (json.containsKey(parameterName)) {
     const char* value = json[parameterName];
     if (value != NULL) {

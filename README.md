@@ -1,4 +1,4 @@
-# Esp8266Configuration
+# Configuration
 
 This project offers a simple method for handling basic configuration for iot projects. Actually wifi ap/station and mqtt are supported. In future more and user defined values will be supported. Also a user defined storage target will be possible.
 

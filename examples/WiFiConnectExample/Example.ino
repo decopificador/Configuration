@@ -3,10 +3,10 @@
 
 #include <ArduinoJson.h>          //https://github.com/bblanchon/ArduinoJson
 #include <PubSubClient.h>
-#include <Esp8266Configuration.h>
+#include <Configuration.h>
 #include <ESP8266mDNS.h>
 
-Esp8266Configuration configuration;
+Configuration configuration;
 WiFiClient espClient;
 PubSubClient client(espClient);
 

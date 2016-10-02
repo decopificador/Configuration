@@ -1,5 +1,5 @@
 {
-  "name": "Esp8266Configuration",
+  "name": "Configuration",
   "keywords": "configuration, iot, esp8266",
   "description": "store and read configuration from SPIFFS (wifi ap, wifi station, mqtt ..)",
   "authors": {
@@ -9,7 +9,7 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/devilsray/Esp8266Configuration"
+    "url": "https://github.com/decopificador/Configuration.git"
   },
   "version": "0.1.4",
   "examples": "examples/*/*.ino",

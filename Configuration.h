@@ -6,8 +6,8 @@
 //#include <GpioPwm.h>
 //#include <list>
 
-#ifndef Esp8266Configuration_h
-#define Esp8266Configuration_h
+#ifndef Configuration_h
+#define Configuration_h
 
 // Wifi ap js/json parameter naming
 const String PARAM_WIFI_AP_SSID          = "wifi_ap_ssid";
@@ -29,7 +29,7 @@ const String PARAM_MQTT_PORT             = "mqtt_port";
 
 const String CONFIG_FILE_NAME            = "configuration.json";
 
-class Esp8266Configuration
+class Configuration
 {
   //std::list<GpioPwm> mapTest;
 
